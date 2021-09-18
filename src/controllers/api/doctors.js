@@ -5,8 +5,8 @@ exports.doctors = async(req, res) => {
 
     try {
         let filterObject = {}
-        req.body.filterArray.includes('fees') ? filterObject.fees = 1 : ''
-        req.body.filterArray.includes('experience') ? filterObject.experience = 1 : ''
+        req.body.filterArray.includes('price') ? filterObject.fees = 1 : ''
+        req.body.filterArray.includes('experience') ? filterObject.experience = -1 : ''
         req.body.filterArray.includes('rating') ? filterObject.rating = 1 : ''
 
         console.log(filterObject)
