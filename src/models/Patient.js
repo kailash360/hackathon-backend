@@ -8,24 +8,25 @@ const patientSchema = new Schema({
         required: true,
     },
     age: { type: Number, required: true },
-    email: { type: String, required: true },
-    contact: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    contact: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     pastAppointments: [{
-        doctorId: { type: String, required: true },
-        date: { type: Date, required: true },
-        time: { type: Date, required: true },
+        doctorId: { type: String },
+        date: { type: Date },
+        time: { type: Date },
         remarks: { type: String }
     }],
     futureAppointments: [{
-        doctorId: { type: String, required: true },
-        date: { type: Date, required: true },
-        time: { type: Date, required: true },
+        doctorId: { type: String },
+        date: { type: Date },
+        time: { type: Date },
         remarks: { type: String }
     }],
     nextAppointment: {
-        doctorId: { type: String, required: true },
-        date: { type: Date, required: true },
-        time: { type: Date, required: true },
+        doctorId: { type: String },
+        date: { type: Date },
+        time: { type: Date },
         remarks: { type: String }
     }
 });
