@@ -11,7 +11,7 @@ exports.doctors = async(req, res) => {
 
         console.log(filterObject)
 
-        await doctors.find()
+        await doctors.find().sort(filterObject)
             .then((result, err) => {
                 if (err) {
                     res.send({ 'status': 'error', 'message': err.message })
