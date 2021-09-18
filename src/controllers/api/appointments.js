@@ -21,7 +21,7 @@ exports.requestAppointment = async(req, res) => {
             }
 
             doctor.requests.push(newRequest)
-            await doctors.findOneAndUpdate({ _id: doctorId }, { $set: { requests: doctor.requests } }, upsert: true, (result, err) => {
+            await doctors.findOneAndUpdate({ _id: doctorId }, { $set: { requests: doctor.requests } }, { upsert: true }, (result, err) => {
                 if (err) {
                     console.error(err)
                     res.send({ 'status': 'error', 'message': err.message })
@@ -43,7 +43,7 @@ exports.requestAppointment = async(req, res) => {
             }
 
             patient.requests.push(newRequest)
-            await patients.findOneAndUpdate({ _id: patientId }, { $set: { requests: patient.requests } }, upsert: true, (result, err) => {
+            await patients.findOneAndUpdate({ _id: patientId }, { $set: { requests: patient.requests } }, { upsert: true }, (result, err) => {
                 if (err) {
                     console.error(err)
                     res.send({ 'status': 'error', 'message': err.message })
