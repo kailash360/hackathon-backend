@@ -16,23 +16,32 @@ const doctorSchema = new Schema({
     totalRatings: { type: Number, required: true },
     specialization: { type: String, required: true },
     pastAppointments: [{
+        appointementId: { type: String },
         patientId: { type: String },
         date: { type: Date },
         time: { type: Date },
         remarks: { type: String }
     }],
     futureAppointments: [{
+        appointementId: { type: String },
         patientId: { type: String },
         date: { type: Date },
         time: { type: Date },
         remarks: { type: String }
     }],
     nextAppointment: {
+        appointementId: { type: String },
         patientId: { type: String },
         date: { type: Date },
         time: { type: Date },
         remarks: { type: String }
-    }
+    },
+    requests: [{
+        patientId: { type: String },
+        date: { type: Date },
+        time: { type: Date },
+        remarks: { type: String }
+    }]
 });
 
 const doctors = new model("doctor", doctorSchema);
