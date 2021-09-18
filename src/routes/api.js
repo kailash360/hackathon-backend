@@ -5,7 +5,7 @@ const { doctors } = require("../controllers/api/doctors.js")
 const { requestAppointment, confirmAppointmentRequest, cancelAppointmentRequest, futureAppointments, nextAppointment, pastAppointments } = require("../controllers/api/appointments.js")
 
 //All api for doctors
-router.get('/doctors', doctors)
+router.post('/doctors', doctors)
 
 //all apis for appointments
 router.get('/api/appointments/futureAppointments/:userId', futureAppointments)
