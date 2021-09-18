@@ -69,7 +69,7 @@ exports.confirmAppointmentRequest = async(req, res) => {
     const confirmed = req.body.confirmed
     const comments = req.body.comments
     const date = req.body.date
-
+    const url = req.body.url
 
     switch (confirmed) {
         //If appointment is confirmed
@@ -80,7 +80,8 @@ exports.confirmAppointmentRequest = async(req, res) => {
                 appointmentId: requestId,
                 patientId: patientId,
                 date: date,
-                remarks: remarks
+                remarks: remarks,
+                url: url,
             }
 
             await doctors.findOne({ _id: doctorId })
@@ -105,7 +106,8 @@ exports.confirmAppointmentRequest = async(req, res) => {
                 date: date,
                 confirmed: 'true',
                 remarks: remarks,
-                comments: comments
+                comments: comments,
+                url: url,
             }
             await patients.findOne({ _id: patientId })
                 .then(async(patient, err) => {
@@ -217,4 +219,104 @@ exports.cancelAppointmentRequest = async(req, res) => {
                 res.send({ 'status': 'success', 'message': 'Request deleted successfully' })
             })
         })
+}
+
+exports.futureAppointments = async(req, res) => {
+
+    const type = req.body.type
+    const userId = req.query.userId
+
+    switch (type) {
+        case 'doctor':
+            await doctors.findOne({ _id: doctorId })
+                .then((result, err) => {
+                    if (err) {
+                        res.send({ 'status': 'error', 'message': err.message })
+                    }
+
+                    res.send({ 'status': 'success', 'futureAppointments': result.futureAppointments })
+                })
+            break
+
+        case 'patient':
+            await patients.findOne({ _id: userId })
+                .then((result, err) => {
+                    if (err) {
+                        res.send({ 'status': 'error', 'message': err.message })
+                    }
+
+                    res.send({ 'status': 'success', 'futureAppointments': result.futureAppointments })
+                })
+            break
+
+        default:
+            res.send({ 'status': 'error', 'message': 'Invalid user type' })
+    }
+}
+
+exports.pastAppointments = async(req, res) => {
+
+    const type = req.body.type
+    const userId = req.query.userId
+
+    switch (type) {
+        case 'doctor':
+            await doctors.findOne({ _id: doctorId })
+                .then((result, err) => {
+                    if (err) {
+                        res.send({ 'status': 'error', 'message': err.message })
+                    }
+
+                    res.send({ 'status': 'success', 'pastAppointments': result.pastAppointments })
+                })
+            break
+
+        case 'patient':
+            await patients.findOne({ _id: userId })
+                .then((result, err) => {
+                    if (err) {
+                        res.send({ 'status': 'error', 'message': err.message })
+                    }
+
+                    res.send({ 'status': 'success', 'pastAppointments': result.pastAppointments })
+                })
+            break
+
+        default:
+            res.send({ 'status': 'error', 'message': 'Invalid user type' })
+    }
+}
+
+exports.nextAppointment = async(req, res) => {
+
+    const userId = req.query.userId
+    const type = req.body.type
+
+    switch (type) {
+
+        case 'doctor':
+            await doctors.findOne({ _id: userId })
+                .then((result, err) => {
+                    if (err) {
+                        res.send({ 'status': 'error', 'message': err.message })
+                    }
+
+                    res.send({ 'status': 'success', 'nextAppointment': result.nextAppointment })
+                })
+            break
+
+        case 'patient':
+            await patients.findOne({ _id: userId })
+                .then((result, err) => {
+                    if (err) {
+                        res.send({ 'status': 'error', 'message': err.message })
+                    }
+
+                    res.send({ 'status': 'success', 'nextAppointment': result.nextAppointment })
+                })
+            break
+
+        default:
+            res.send({ 'status': 'error', 'message': 'Invalid user type' })
+    }
 }
