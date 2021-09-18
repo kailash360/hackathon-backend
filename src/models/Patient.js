@@ -34,7 +34,7 @@ const patientSchema = new Schema({
         url: { type: String },
     },
     requests: [{
-        requestId: { type: Number },
+        requestId: { type: String },
         doctorId: { type: String },
         date: { type: Date },
         remarks: { type: String },

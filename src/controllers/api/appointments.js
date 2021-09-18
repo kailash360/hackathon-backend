@@ -13,7 +13,7 @@ exports.requestAppointment = async(req, res) => {
     const requestId = patientId + '--' + doctorId + '--' + date
 
     //Find the doctor and add request to the doctor
-    await doctors.findOne({ _id: doctorId })
+    doctors.findOne({ _id: doctorId })
         .then(async(doctor, err) => {
             let newRequest = {
                 requestId: requestId,
@@ -23,16 +23,17 @@ exports.requestAppointment = async(req, res) => {
             }
 
             doctor.requests.push(newRequest)
-            await doctors.findOneAndUpdate({ _id: doctorId }, { $set: { requests: doctor.requests } }, { upsert: true }, (result, err) => {
-                if (err) {
-                    console.error(err)
-                    res.send({ 'status': 'error', 'message': err.message })
-                }
-            })
+                // await doctors.findOneAndUpdate({ _id: doctorId }, { $set: { requests: doctor.requests } }, { upsert: true }, (result, err) => {
+                //     if (err) {
+                //         console.error(err)
+                //         res.send({ 'status': 'error', 'message': err.message })
+                //     }
+                // })
+            await doctor.save()
         })
 
     //find patient and add request to patient
-    await patients.findOne({ _id: patientId })
+    patients.findOne({ _id: patientId })
         .then(async(patient, err) => {
 
             let newRequest = {
@@ -45,17 +46,19 @@ exports.requestAppointment = async(req, res) => {
             }
 
             patient.requests.push(newRequest)
-            await patients.findOneAndUpdate({ _id: patientId }, { $set: { requests: patient.requests } }, { upsert: true }, (result, err) => {
-                if (err) {
-                    console.error(err)
-                    res.send({ 'status': 'error', 'message': err.message })
-                }
 
+            try {
+                await patient.save()
                 res.send({ 'status': 'success', 'message': 'Appointment requested successfully' })
-            })
+            } catch (err) {
+                console.error(err)
+                res.send({ 'status': 'error', 'message': err.message });
+            }
 
+        }).catch((err) => {
+            console.error(err)
+            res.send({ 'status': 'error', 'message': err.message })
         })
-
 }
 
 
@@ -66,7 +69,6 @@ exports.confirmAppointmentRequest = async(req, res) => {
     const doctorId = req.body.doctorId
     const confirmed = req.body.confirmed
     const comments = req.body.comments
-    const date = req.body.date
     const url = req.body.url
 
     switch (confirmed) {
@@ -74,62 +76,70 @@ exports.confirmAppointmentRequest = async(req, res) => {
         case true:
 
             //save the appointment in doctor
-            let newAppointment = {
-                appointmentId: requestId,
-                patientId: patientId,
-                date: date,
-                remarks: remarks,
-                url: url,
-            }
+            // let newAppointment = {
+            //     appointmentId: requestId,
+            //     patientId: patientId,
+            //     date: date,
+            //     remarks: remarks,
+            //     url: url,
+            // }
 
-            await doctors.findOne({ _id: doctorId })
+            doctors.find({ _id: doctorId, requests: { $elemMatch: { requestId: requestId } } })
                 .then(async(doctor, err) => {
                     if (err) {
                         res.send({ 'status': 'error', 'message': err.message })
                     }
+                    console.log('1')
+                    console.log(doctor)
 
-                    doctor.futureAppointments.push(newAppointment)
-                    doctor.requests = doctor.requests.filter(item => item.requestId !== requestId)
-                    doctor.findOneAndUpdate({ _id: doctorId }, { $set: { futureAppointments: doctor.futureAppointments, requests: doctor.requests } }, { upsert: true }, (result, err) => {
-                        if (err) {
-                            res.send({ 'status': 'error', 'message': err })
-                        }
-                    })
+                    // doctor.futureAppointments.push(newAppointment)
 
+                    // doctor.requests = doctor.requests.filter(item => item.requestId !== requestId)
+                    // try {
+                    //     await doctor.save()
+                    // } catch (err) {
+                    //     console.error(err)
+                    //     res.send({ 'status': 'error', 'message': err.message })
+                    // }
+                    // res.send({ 'data': doctor })
                 })
                 //save the appointtment in patient
             newAppointment = {
-                appointmentId: requestId,
-                doctorId: doctorId,
-                date: date,
-                confirmed: 'true',
-                remarks: remarks,
-                comments: comments,
-                url: url,
-            }
-            await patients.findOne({ _id: patientId })
-                .then(async(patient, err) => {
-                    if (err) {
-                        res.send({ 'status': 'error', 'message': err.message })
-                    }
+                    appointmentId: requestId,
+                    doctorId: doctorId,
+                    // date: date,
+                    confirmed: 'true',
+                    // remarks: remarks,
+                    comments: comments,
+                    url: url,
+                }
+                // await patients.findOne({ _id: patientId })
+                //     .then(async(patient, err) => {
+                //         if (err) {
+                //             res.send({ 'status': 'error', 'message': err.message })
+                //         }
 
-                    patient.futureAppointments.push(newAppointment)
-                    patient.requests = patient.requests.map(item => {
-                        if (item.requestId === requestId) {
-                            item.confirmed = true
-                        }
+            //         patient.futureAppointments.push(newAppointment)
+            //         patient.requests = patient.requests.map(item => {
+            //             if (item.requestId === requestId) {
+            //                 item.confirmed = true
+            //             }
 
-                        return item
-                    })
-                    await patients.findOneAndUpdate({ _id: patientId }, { $set: { futureAppointments: patient.futureAppointments, requests: patient.requests } }, { upsert: true }, (result, err) => {
-                        if (err) {
-                            res.send({ 'status': 'error', 'message': err.message })
-                        }
+            //             return item
+            //         })
 
-                        res.send({ 'status': 'success', 'message': 'Appointment confirmed successfully' })
-                    })
+            //         try {
+            //             patient.save()
+            //             res.send({ 'status': 'success', 'message': 'Appointment confirmed successfully' })
+            //         } catch (err) {
+            //             console.error(err)
+            //             res.send({ 'status': 'error', 'message': err.message })
+            //         }
 
-                })
+            //     }).catch((err) => {
+            //         console.error(err)
+            //         res.send({ 'status': 'error', 'message': err.message })
+            //     })
             break
 
             //If appointment is rejected,
