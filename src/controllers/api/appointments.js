@@ -90,7 +90,7 @@ exports.confirmAppointmentRequest = async(req, res) => {
                     }
 
                     doctor.futureAppointments.push(newAppointment)
-                    doctor.requests.filter(item => item.requestId !== requestId)
+                    doctor.requests = doctor.requests.filter(item => item.requestId !== requestId)
                     doctor.findOneAndUpdate({ _id: doctorId }, { $set: { futureAppointments: doctor.futureAppointments, requests: doctor.requests } }, { upsert: true }, (result, err) => {
                         if (err) {
                             res.send({ 'status': 'error', 'message': err })
@@ -114,7 +114,7 @@ exports.confirmAppointmentRequest = async(req, res) => {
                     }
 
                     patient.futureAppointments.push(newAppointment)
-                    patient.requests.map(item => {
+                    patient.requests = patient.requests.map(item => {
                         if (item.requestId === requestId) {
                             item.confirmed = true
                         }
@@ -142,7 +142,7 @@ exports.confirmAppointmentRequest = async(req, res) => {
                         res.send({ 'status': 'error', 'message': err.message })
                     }
 
-                    doctor.requests.filter(request => request.requestId !== requestId)
+                    doctor.requests = doctor.requests.filter(request => request.requestId !== requestId)
                     await doctors.findOneAndUpdate({ _id: doctorId }, { $set: { requests: doctor.requests } }, { upsert: true }, (result, err) => {
                         if (err) {
                             res.send({ 'status': 'error', 'message': err.message })
@@ -157,7 +157,7 @@ exports.confirmAppointmentRequest = async(req, res) => {
                         res.send({ 'status': 'error', 'message': err.message })
                     }
 
-                    patient.requests.map(item => {
+                    patient.requests = patient.requests.map(item => {
                         if (item.requestId === requestId) {
                             item.confirmed = false
                         }
@@ -182,4 +182,39 @@ exports.confirmAppointmentRequest = async(req, res) => {
 
     }
 
+}
+
+exports.cancelAppointmentRequest = async(req, res) => {
+    const patientId = req.body.patientId
+    const doctorId = req.body.doctorId
+    const requestId = req.body.requestId
+
+    await doctors.findOne({ _id: doctorId })
+        .then(async(doctor, err) => {
+            if (err) {
+                res.send({ 'status': 'error', 'message': err.message })
+            }
+
+            doctor.requests = doctor.requests.filter(request => request.requestId !== requestId)
+            await doctors.findOneAndUpdate({ _id: doctorId }, { $set: { requests: doctor.requests } }, { upsert: true }, (result, err) => {
+                if (err) {
+                    res.send({ 'status': 'error', 'message': err.message })
+                }
+            })
+        })
+    await patients.find({ _id: patientId })
+        .then(async(patient, err) => {
+            if (err) {
+                res.send({ 'status': 'error', 'message': err.message })
+            }
+
+            patients.requests = patient.requests.filter(request => request.requestId !== requestId)
+            await patients.findOneAndUpdate({ _id: patientId }, { $set: { requests: patient.requests } }, { upsert: true }, (result, err) => {
+                if (err) {
+                    res.send({ 'status': 'error', 'message': err.message })
+                }
+
+                res.send({ 'status': 'success', 'message': 'Request deleted successfully' })
+            })
+        })
 }
