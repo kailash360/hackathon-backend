@@ -9,6 +9,10 @@ const doctorSchema = new Schema({
     },
     email: { type: String, required: true },
     contact: { type: String, required: true },
+    password: { type: String, required: true },
+    experience: { type: Number, required: true },
+    fees: { type: Number, required: true },
+    rating: { type: Number, required: true },
     pastAppointments: [{
         patientId: { type: String, required: true },
         date: { type: Date, required: true },
