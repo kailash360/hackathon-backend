@@ -8,7 +8,7 @@ exports.requestAppointment = async(req, res) => {
     const patientId = req.body.patientId
     const doctorId = req.body.doctorId
     const date = req.body.date
-    const time = req.body.time
+    const remarks = req.body.remarks || "None"
 
     const requestId = patientId + '--' + doctorId + '--' + date
 
@@ -19,7 +19,6 @@ exports.requestAppointment = async(req, res) => {
                 requestId: requestId,
                 patientId: patientId,
                 date: date,
-                time: time,
                 remarks: remarks
             }
 
@@ -40,7 +39,6 @@ exports.requestAppointment = async(req, res) => {
                 requestId: requestId,
                 doctorId: doctorId,
                 date: date,
-                time: time,
                 remarks: remarks,
                 confirmed: 'Pending',
                 comments: '',
@@ -223,8 +221,8 @@ exports.cancelAppointmentRequest = async(req, res) => {
 
 exports.futureAppointments = async(req, res) => {
 
-    const type = req.body.type
-    const userId = req.query.userId
+    const type = req.params.type
+    const userId = req.params.userId
 
     switch (type) {
         case 'doctor':
@@ -256,8 +254,8 @@ exports.futureAppointments = async(req, res) => {
 
 exports.pastAppointments = async(req, res) => {
 
-    const type = req.body.type
-    const userId = req.query.userId
+    const type = req.params.type
+    const userId = req.params.userId
 
     switch (type) {
         case 'doctor':
@@ -289,8 +287,8 @@ exports.pastAppointments = async(req, res) => {
 
 exports.nextAppointment = async(req, res) => {
 
-    const userId = req.query.userId
-    const type = req.body.type
+    const userId = req.params.userId
+    const type = req.params.type
 
     switch (type) {
 
