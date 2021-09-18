@@ -21,9 +21,10 @@ exports.signup = async(req, res) => {
 
             //When user is a doctor
             case 'doctor':
-                //body of a doctor should contain {name,email,contact,password,,experience,fees}
+                //body of a doctor should contain {name,email,contact,password,,experience,fees,specialization}
                 const experience = parseInt(req.body.experience)
                 const fees = parseInt(req.body.fees)
+                const specialization = req.body.specialization
 
                 let doctor = new doctors()
                 doctor.name = name
@@ -34,6 +35,7 @@ exports.signup = async(req, res) => {
                 })
                 doctor.experience = experience
                 doctor.fees = fees
+                doctor.specialization = specialization
                 doctor.rating = 0
                 doctor.totalRatings = 0
                 doctor.pastAppointments = []

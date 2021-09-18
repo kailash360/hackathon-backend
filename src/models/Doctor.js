@@ -14,6 +14,7 @@ const doctorSchema = new Schema({
     fees: { type: Number, required: true },
     rating: { type: Number, required: true },
     totalRatings: { type: Number, required: true },
+    specialization: { type: String, required: true },
     pastAppointments: [{
         patientId: { type: String },
         date: { type: Date },
