@@ -38,17 +38,16 @@ exports.signup = async(req, res) => {
             doctor.futureAppointments = [];
             doctor.nextAppointment = {};
 
-            await doctor.save((err) => {
-                if (err) {
-                    console.error(err);
-                    res.send({ status: "error", message: err.message });
-                } else {
-                    res.send({
-                        status: "success",
-                        message: "doctor created successfully",
-                    });
-                }
-            });
+
+            try {
+                await doctor.save();
+                res.send({
+                    status: "success",
+                    message: "doctor created successfully",
+                });
+            } catch (err) {
+                res.send({ status: "error", message: err.message });
+            }
         }
         //When user is a patient
         else {
@@ -67,17 +66,16 @@ exports.signup = async(req, res) => {
             patient.futureAppointments = [];
             patient.nextAppointment = {};
 
-            await patient.save((err) => {
-                if (err) {
-                    console.error(err);
-                    res.send({ status: "error", message: err.message });
-                } else {
-                    res.send({
-                        status: "success",
-                        message: "patient created successfully",
-                    });
-                }
-            });
+
+            try {
+                await patients.save();
+                res.send({
+                    status: "success",
+                    message: "patient created successfully",
+                });
+            } catch (err) {
+                res.send({ status: "error", message: err.message });
+            }
         }
     } catch (e) {
         console.error(e);
