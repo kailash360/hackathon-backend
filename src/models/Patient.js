@@ -19,14 +19,37 @@ const patientSchema = new Schema({
       time: { type: Date },
       remarks: { type: String },
       attended: { type: Boolean },
-      doctorname: {
-        type: String,
+      doctorDetails: {
+        doctorname: {
+          type: String,
+        },
+        doctoremail: { type: String },
+        doctorcontact: { type: String },
+        doctorexperience: { type: Number },
+        doctorfees: { type: Number },
+        doctorspecialization: { type: String },
       },
-      doctoremail: { type: String },
-      doctorcontact: { type: String },
-      doctorexperience: { type: Number },
-      doctorfees: { type: Number },
-      doctorspecialization: { type: String },
+    },
+  ],
+  cancelledAppointments: [
+    {
+      appointementId: { type: String },
+      doctorId: { type: String },
+      date: { type: Date },
+      time: { type: Date },
+      remarks: { type: String },
+      comment: { type: String },
+      attended: { type: Boolean },
+      doctorDetails: {
+        doctorname: {
+          type: String,
+        },
+        doctoremail: { type: String },
+        doctorcontact: { type: String },
+        doctorexperience: { type: Number },
+        doctorfees: { type: Number },
+        doctorspecialization: { type: String },
+      },
     },
   ],
   futureAppointments: [
