@@ -20,7 +20,7 @@ const doctorSchema = new Schema({
     {
       appointementId: { type: String },
       patientId: { type: String },
-      date: { type: Date },
+      date: { type: Number },
       remarks: { type: String },
       patientDetails: {
         patientname: {
@@ -36,7 +36,7 @@ const doctorSchema = new Schema({
     {
       appointementId: { type: String },
       patientId: { type: String },
-      date: { type: Date },
+      date: { type: Number },
       remarks: { type: String },
       url: { type: String },
       patientDetails: {
@@ -52,7 +52,7 @@ const doctorSchema = new Schema({
   nextAppointment: {
     appointementId: { type: String },
     patientId: { type: String },
-    date: { type: Date },
+    date: { type: Number },
     remarks: { type: String },
     url: { type: String },
     patientDetails: {
@@ -68,7 +68,7 @@ const doctorSchema = new Schema({
     {
       requestId: { type: String },
       patientId: { type: String },
-      date: { type: Date },
+      date: { type: Number },
       remarks: { type: String },
       patientDetails: {
         patientname: {
