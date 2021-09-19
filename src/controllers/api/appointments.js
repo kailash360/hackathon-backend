@@ -95,7 +95,7 @@ exports.confirmAppointmentRequest = async (req, res) => {
           console.log("1");
           console.log(doctor);
 
-          // doctor.futureAppointments.push(newAppointment)
+          // doctor.nextAppointments.push(newAppointment)
 
           // doctor.requests = doctor.requests.filter(item => item.requestId !== requestId)
           // try {
@@ -259,35 +259,34 @@ exports.futureAppointments = async (req, res) => {
   const type = req.params.type;
   const userId = req.params.userId;
 
-  switch (type) {
-    case "doctor":
-      await doctors.findOne({ _id: userId }).then((result, err) => {
-        if (err) {
-          res.send({ status: "error", message: err.message });
-        }
+  console.log("request made to futureAppointments");
 
+  if (type === "doctor") {
+    doctors
+      .findOne({ _id: userId })
+      .then((result) => {
         res.send({
           status: "success",
           futureAppointments: result.futureAppointments,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ status: "error", message: "Invalid user type" });
       });
-      break;
-
-    case "patient":
-      await patients.findOne({ _id: userId }).then((result, err) => {
-        if (err) {
-          res.send({ status: "error", message: err.message });
-        }
-
+  } else {
+    patients
+      .findOne({ _id: userId })
+      .then((result) => {
         res.send({
           status: "success",
           futureAppointments: result.futureAppointments,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ status: "error", message: "Invalid user type" });
       });
-      break;
-
-    default:
-      res.send({ status: "error", message: "Invalid user type" });
   }
 };
 
@@ -295,35 +294,34 @@ exports.pastAppointments = async (req, res) => {
   const type = req.params.type;
   const userId = req.params.userId;
 
-  switch (type) {
-    case "doctor":
-      await doctors.findOne({ _id: doctorId }).then((result, err) => {
-        if (err) {
-          res.send({ status: "error", message: err.message });
-        }
+  console.log("request made to pastAppointments");
 
+  if (type === "doctor") {
+    doctors
+      .findOne({ _id: userId })
+      .then((result) => {
         res.send({
           status: "success",
           pastAppointments: result.pastAppointments,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ status: "error", message: "Invalid user type" });
       });
-      break;
-
-    case "patient":
-      await patients.findOne({ _id: userId }).then((result, err) => {
-        if (err) {
-          res.send({ status: "error", message: err.message });
-        }
-
+  } else {
+    patients
+      .findOne({ _id: userId })
+      .then((result) => {
         res.send({
           status: "success",
           pastAppointments: result.pastAppointments,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ status: "error", message: "Invalid user type" });
       });
-      break;
-
-    default:
-      res.send({ status: "error", message: "Invalid user type" });
   }
 };
 
@@ -331,34 +329,33 @@ exports.nextAppointment = async (req, res) => {
   const userId = req.params.userId;
   const type = req.params.type;
 
-  switch (type) {
-    case "doctor":
-      await doctors.findOne({ _id: userId }).then((result, err) => {
-        if (err) {
-          res.send({ status: "error", message: err.message });
-        }
+  console.log("request made to nextAppointments");
 
+  if (type === "doctor") {
+    doctors
+      .findOne({ _id: userId })
+      .then((result) => {
         res.send({
           status: "success",
-          nextAppointment: result.nextAppointment,
+          nextAppointments: result.nextAppointments,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ status: "error", message: "Invalid user type" });
       });
-      break;
-
-    case "patient":
-      await patients.findOne({ _id: userId }).then((result, err) => {
-        if (err) {
-          res.send({ status: "error", message: err.message });
-        }
-
+  } else {
+    patients
+      .findOne({ _id: userId })
+      .then((result) => {
         res.send({
           status: "success",
-          nextAppointment: result.nextAppointment,
+          nextAppointments: result.nextAppointments,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ status: "error", message: "Invalid user type" });
       });
-      break;
-
-    default:
-      res.send({ status: "error", message: "Invalid user type" });
   }
 };

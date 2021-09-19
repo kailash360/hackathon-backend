@@ -21,6 +21,14 @@ const doctorSchema = new Schema({
       patientId: { type: String },
       date: { type: Date },
       remarks: { type: String },
+      patientDetails: {
+        patientname: {
+          type: String,
+        },
+        patientemail: { type: String },
+        patientcontact: { type: String },
+        patientage: { type: Number },
+      },
     },
   ],
   futureAppointments: [
@@ -30,6 +38,14 @@ const doctorSchema = new Schema({
       date: { type: Date },
       remarks: { type: String },
       url: { type: String },
+      patientDetails: {
+        patientname: {
+          type: String,
+        },
+        patientemail: { type: String },
+        patientcontact: { type: String },
+        patientage: { type: Number },
+      },
     },
   ],
   nextAppointment: {
@@ -38,6 +54,14 @@ const doctorSchema = new Schema({
     date: { type: Date },
     remarks: { type: String },
     url: { type: String },
+    patientDetails: {
+      patientname: {
+        type: String,
+      },
+      patientemail: { type: String },
+      patientcontact: { type: String },
+      patientage: { type: Number },
+    },
   },
   requests: [
     {
@@ -45,6 +69,14 @@ const doctorSchema = new Schema({
       patientId: { type: String },
       date: { type: Date },
       remarks: { type: String },
+      patientDetails: {
+        patientname: {
+          type: String,
+        },
+        patientemail: { type: String },
+        patientcontact: { type: String },
+        patientage: { type: Number },
+      },
     },
   ],
 });

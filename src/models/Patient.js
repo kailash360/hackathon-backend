@@ -3,44 +3,88 @@ const Schema = mongoose.Schema;
 const model = mongoose.model;
 
 const patientSchema = new Schema({
-    name: {
+  name: {
+    type: String,
+    required: true,
+  },
+  age: { type: Number, required: true },
+  email: { type: String, required: true, unique: true },
+  contact: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  pastAppointments: [
+    {
+      appointementId: { type: String },
+      doctorId: { type: String },
+      date: { type: Date },
+      time: { type: Date },
+      remarks: { type: String },
+      attended: { type: Boolean },
+      doctorname: {
         type: String,
-        required: true,
+      },
+      doctoremail: { type: String },
+      doctorcontact: { type: String },
+      doctorexperience: { type: Number },
+      doctorfees: { type: Number },
+      doctorspecialization: { type: String },
     },
-    age: { type: Number, required: true },
-    email: { type: String, required: true, unique: true },
-    contact: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    pastAppointments: [{
-        appointementId: { type: String },
-        doctorId: { type: String },
-        date: { type: Date },
-        time: { type: Date },
-        remarks: { type: String },
-        attended: { type: Boolean }
-    }],
-    futureAppointments: [{
-        appointementId: { type: String },
-        doctorId: { type: String },
-        date: { type: Date },
-        remarks: { type: String },
-        url: { type: String },
-    }],
-    nextAppointment: {
-        appointementId: { type: String },
-        doctorId: { type: String },
-        date: { type: Date },
-        remarks: { type: String },
-        url: { type: String },
+  ],
+  futureAppointments: [
+    {
+      appointementId: { type: String },
+      doctorId: { type: String },
+      date: { type: Date },
+      remarks: { type: String },
+      url: { type: String },
+      doctorDetails: {
+        doctorname: {
+          type: String,
+        },
+        doctoremail: { type: String },
+        doctorcontact: { type: String },
+        doctorexperience: { type: Number },
+        doctorfees: { type: Number },
+        doctorspecialization: { type: String },
+      },
     },
-    requests: [{
-        requestId: { type: String },
-        doctorId: { type: String },
-        date: { type: Date },
-        remarks: { type: String },
-        confirmed: { type: String },
-        comments: { type: String }
-    }]
+  ],
+  nextAppointment: {
+    appointementId: { type: String },
+    doctorId: { type: String },
+    date: { type: Date },
+    remarks: { type: String },
+    url: { type: String },
+    doctorDetails: {
+      doctorname: {
+        type: String,
+      },
+      doctoremail: { type: String },
+      doctorcontact: { type: String },
+      doctorexperience: { type: Number },
+      doctorfees: { type: Number },
+      doctorspecialization: { type: String },
+    },
+  },
+  requests: [
+    {
+      requestId: { type: String },
+      doctorId: { type: String },
+      date: { type: Date },
+      remarks: { type: String },
+      confirmed: { type: String },
+      comments: { type: String },
+      doctorDetails: {
+        doctorname: {
+          type: String,
+        },
+        doctoremail: { type: String },
+        doctorcontact: { type: String },
+        doctorexperience: { type: Number },
+        doctorfees: { type: Number },
+        doctorspecialization: { type: String },
+      },
+    },
+  ],
 });
 
 const patients = new model("patient", patientSchema);
