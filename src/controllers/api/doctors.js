@@ -22,7 +22,6 @@ exports.doctors = async (req, res) => {
 };
 exports.specficdoctor = async (req, res) => {
   const id = req.params.id;
-  console.log("reaaskldfj");
 
   doctors
     .findOne({ _id: id })

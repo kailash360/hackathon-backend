@@ -15,8 +15,7 @@ const patientSchema = new Schema({
     {
       appointementId: { type: String },
       doctorId: { type: String },
-      date: { type: Date },
-      time: { type: Date },
+      date: { type: Number },
       remarks: { type: String },
       attended: { type: Boolean },
       doctorDetails: {
@@ -35,8 +34,7 @@ const patientSchema = new Schema({
     {
       appointementId: { type: String },
       doctorId: { type: String },
-      date: { type: Date },
-      time: { type: Date },
+      date: { type: Number },
       remarks: { type: String },
       comment: { type: String },
       attended: { type: Boolean },
@@ -56,7 +54,7 @@ const patientSchema = new Schema({
     {
       appointementId: { type: String },
       doctorId: { type: String },
-      date: { type: Date },
+      date: { type: Number },
       remarks: { type: String },
       url: { type: String },
       doctorDetails: {
@@ -74,7 +72,7 @@ const patientSchema = new Schema({
   nextAppointment: {
     appointementId: { type: String },
     doctorId: { type: String },
-    date: { type: Date },
+    date: { type: Number },
     remarks: { type: String },
     url: { type: String },
     doctorDetails: {
@@ -92,7 +90,7 @@ const patientSchema = new Schema({
     {
       requestId: { type: String },
       doctorId: { type: String },
-      date: { type: Date },
+      date: { type: Number },
       remarks: { type: String },
       confirmed: { type: String },
       comments: { type: String },

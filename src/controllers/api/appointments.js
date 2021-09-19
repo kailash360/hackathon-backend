@@ -8,6 +8,16 @@ exports.requestAppointment = async (req, res) => {
   const doctorId = req.body.doctorId;
   const date = req.body.date;
   const remarks = req.body.remarks || "None";
+  const doctorname = req.body.doctorName
+  const doctoremail = req.body.doctoremail
+  const doctorcontact =req.body.doctorcontact
+  const doctorexperience = req.body.doctorexperience
+  const doctorfees =  req.body.doctorfees
+  const doctorspecialization =  req.body.doctorspecialization,
+  const patientname = req.body.patientname ,
+  const patientemail = req.body.patientemail,
+  const patientcontact = req.body.patientcontact,
+  const patientage = req.body.patientage,
 
   const requestId = patientId + "--" + doctorId + "--" + date;
 
@@ -17,7 +27,13 @@ exports.requestAppointment = async (req, res) => {
       requestId: requestId,
       patientId: patientId,
       date: date,
-      remarks: remarks,
+      confirmed:false,
+      patientDetails: {
+        patientname ,
+        patientemail,
+        patientcontact ,
+        patientage       
+      }
     };
 
     doctor.requests.push(newRequest);
@@ -36,11 +52,17 @@ exports.requestAppointment = async (req, res) => {
     .then(async (patient, err) => {
       let newRequest = {
         requestId: requestId,
-        doctorId: doctorId,
-        date: date,
-        remarks: remarks,
-        confirmed: "Pending",
-        comments: "",
+      patientId: patientId,
+      date: date,
+      confirmed:false,
+      doctorDetails: {
+        doctorname ,
+        doctoremail,
+        doctorcontact ,
+        doctorexperience ,
+        doctorfees,
+        doctorspecialization, 
+      }
       };
 
       patient.requests.push(newRequest);
