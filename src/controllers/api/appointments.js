@@ -265,6 +265,10 @@ exports.futureAppointments = async (req, res) => {
     doctors
       .findOne({ _id: userId })
       .then((result) => {
+        if (!result) {
+          res.send({ status: "error", message: "No such User Exists" });
+          return;
+        }
         res.send({
           status: "success",
           futureAppointments: result.futureAppointments,
@@ -278,6 +282,10 @@ exports.futureAppointments = async (req, res) => {
     patients
       .findOne({ _id: userId })
       .then((result) => {
+        if (!result) {
+          res.send({ status: "error", message: "No such User Exists" });
+          return;
+        }
         res.send({
           status: "success",
           futureAppointments: result.futureAppointments,
@@ -300,6 +308,10 @@ exports.pastAppointments = async (req, res) => {
     doctors
       .findOne({ _id: userId })
       .then((result) => {
+        if (!result) {
+          res.send({ status: "error", message: "No such User Exists" });
+          return;
+        }
         res.send({
           status: "success",
           pastAppointments: result.pastAppointments,
@@ -313,6 +325,10 @@ exports.pastAppointments = async (req, res) => {
     patients
       .findOne({ _id: userId })
       .then((result) => {
+        if (!result) {
+          res.send({ status: "error", message: "No such User Exists" });
+          return;
+        }
         res.send({
           status: "success",
           pastAppointments: result.pastAppointments,
@@ -335,6 +351,10 @@ exports.nextAppointment = async (req, res) => {
     doctors
       .findOne({ _id: userId })
       .then((result) => {
+        if (!result) {
+          res.send({ status: "error", message: "No such User Exists" });
+          return;
+        }
         res.send({
           status: "success",
           nextAppointments: result.nextAppointments,
@@ -348,6 +368,10 @@ exports.nextAppointment = async (req, res) => {
     patients
       .findOne({ _id: userId })
       .then((result) => {
+        if (!result) {
+          res.send({ status: "error", message: "No such User Exists" });
+          return;
+        }
         res.send({
           status: "success",
           nextAppointments: result.nextAppointments,
@@ -357,5 +381,74 @@ exports.nextAppointment = async (req, res) => {
         console.log(err);
         res.send({ status: "error", message: "Invalid user type" });
       });
+  }
+};
+exports.requestedAppointments = async (req, res) => {
+  const userId = req.params.userId;
+  const type = req.params.type;
+
+  console.log("request made to requestedAppointments");
+
+  if (type === "doctor") {
+    doctors
+      .findOne({ _id: userId })
+      .then((result) => {
+        if (!result) {
+          res.send({ status: "error", message: "No such User Exists" });
+          return;
+        }
+        res.send({
+          status: "success",
+          requestedAppointments: result.requestedAppointments,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ status: "error", message: "Invalid user type" });
+      });
+  } else {
+    patients
+      .findOne({ _id: userId })
+      .then((result) => {
+        if (!result) {
+          res.send({ status: "error", message: "No such User Exists" });
+          return;
+        }
+        res.send({
+          status: "success",
+          requestedAppointments: result.requestedAppointments,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ status: "error", message: "Invalid user type" });
+      });
+  }
+};
+exports.cancelledAppointments = async (req, res) => {
+  const userId = req.params.userId;
+  const type = req.params.type;
+
+  console.log("request made to cancelledAppointments");
+
+  if (type === "patient") {
+    patients
+      .findOne({ _id: userId })
+      .then((result) => {
+        if (!result) {
+          res.send({ status: "error", message: "No such User Exists" });
+          return;
+        }
+        res.send({
+          status: "success",
+          cancelledAppointments: result.cancelledAppointments,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ status: "error", message: "Invalid user type" });
+      });
+  } else {
+    res.send({ status: "error", message: "Invalid user type" });
   }
 };
