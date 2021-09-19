@@ -15,6 +15,7 @@ const doctorSchema = new Schema({
   rating: { type: mongoose.Types.Decimal128, required: true },
   totalRatings: { type: Number, required: true },
   specialization: { type: String, required: true },
+  slot: [],
   pastAppointments: [
     {
       appointementId: { type: String },

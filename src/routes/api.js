@@ -1,7 +1,7 @@
 //all apis
 const express = require("express");
 const router = express.Router();
-const { doctors } = require("../controllers/api/doctors.js");
+const { doctors, specficdoctor } = require("../controllers/api/doctors.js");
 const {
   requestAppointment,
   confirmAppointmentRequest,
@@ -15,6 +15,7 @@ const {
 
 //All api for doctors
 router.post("/doctors", doctors);
+router.get("/doctors/:id", specficdoctor);
 
 //all apis for appointments
 router.get(

@@ -20,3 +20,17 @@ exports.doctors = async (req, res) => {
     res.send({ status: "error", message: err.message });
   }
 };
+exports.specficdoctor = async (req, res) => {
+  const id = req.params.id;
+  console.log("reaaskldfj");
+
+  doctors
+    .findOne({ _id: id })
+    .then((result) => {
+      res.send({ status: "success", data: result });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send({ status: "error", message: err.message });
+    });
+};
