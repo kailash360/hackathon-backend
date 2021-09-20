@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const model = mongoose.model;
+const bcrypt = require("bcrypt");
 
 const doctorSchema = new Schema({
   name: {
@@ -82,6 +83,10 @@ const doctorSchema = new Schema({
   ],
 });
 
-const doctors = new model("doctor", doctorSchema);
-
-module.exports = doctors;
+doctorSchema.methods.comparePassword = function (candidatePassword, next) {
+  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+    if (err) return next(err);
+    next(null, isMatch);
+  });
+};
+module.exports = mongoose.model("doctor", doctorSchema);
