@@ -421,7 +421,7 @@ exports.requestedAppointments = async (req, res) => {
         }
         res.send({
           status: "success",
-          requestedAppointments: result.requestedAppointments,
+          requestedAppointments: result.requests,
         });
       })
       .catch((err) => {
@@ -436,9 +436,10 @@ exports.requestedAppointments = async (req, res) => {
           res.send({ status: "error", message: "No such User Exists" });
           return;
         }
+        console.log(result);
         res.send({
           status: "success",
-          requestedAppointments: result.requestedAppointments,
+          requestedAppointments: result.requests,
         });
       })
       .catch((err) => {
